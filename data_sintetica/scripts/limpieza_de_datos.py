@@ -84,10 +84,6 @@ def get_censo_clean(muestra):
             censo["ci"]
         )
     )
-    if censo is None:
-        print("Warning: censo es None después de cargar los datos.")
-    else:
-        print("censo no es None después de cargar los datos.")
 
     censo["id_pais_documento"] = np.where(
         censo.apply(lambda row: row["ci"] == row["documento"] and row["documento"] is not np.nan or row["docextpais"] == 895, axis=1),
@@ -112,6 +108,10 @@ def get_censo_clean(muestra):
     )
 
     censo["id_tipo_documento"] = censo["id_tipo_documento"].astype(pd.StringDtype())
+    if censo is None:
+        print("Warning: censo es None después de cargar los datos.")
+    else:
+        print("censo no es None después de cargar los datos.")
 
     def condition(row):
         if pd.isna(row["id_pais_documento"]) or pd.isna(row["id_tipo_documento"]):
