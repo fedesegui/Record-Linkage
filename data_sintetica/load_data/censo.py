@@ -18,10 +18,6 @@ def get_personas_censo(muestra=None):
         print("Warning: El DataFrame de personas_censo está vacío después de aplicar la muestra.")
     else:
         print(f"personas_censo cargado con {len(personas_censo)} filas.")
-    if personas_censo is None:
-        print("Warning: personas_censo es None después de cargar los datos.")
-    else:
-        print("personas_censo no es None después de cargar los datos.")
     return personas_censo
 
 
