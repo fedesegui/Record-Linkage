@@ -120,4 +120,4 @@ def get_censo_clean(muestra):
         0,
     )
     print("Se modificaron los documentos: " + datetime.now().strftime("%H:%M:%S"))
-    
+    return censo
