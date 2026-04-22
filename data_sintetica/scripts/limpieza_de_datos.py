@@ -1,12 +1,12 @@
 import pandas as pd
 import numpy as np
-from utils.limpieza_de_datos.funciones_texto import (
+from data_sintetica.utils.limpieza_de_datos.funciones_texto import (
     limpieza_database,
     modificar_nombre_apellido
 )
-from utils.limpieza_de_datos.funciones_documentos import validar_cedula
-from load_data.rraa import get_personas_rraa
-from load_data.censo import get_personas_censo
+from data_sintetica.utils.limpieza_de_datos.funciones_documentos import validar_cedula
+from data_sintetica.load_data.rraa import get_personas_rraa
+from data_sintetica.load_data.censo import get_personas_censo
 from datetime import datetime 
 
 

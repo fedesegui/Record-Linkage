@@ -3,7 +3,7 @@ from pathlib import Path
 import pandas as pd
 
 BASE_DIR = Path(__file__).resolve().parents[1]
-CENSO_FILE = BASE_DIR / "data_sintetica" / "microdatos_censo_sintetico.csv"
+CENSO_FILE = BASE_DIR / "microdatos_censo_sintetico.csv"
 
 
 def _read_censo() -> pd.DataFrame:

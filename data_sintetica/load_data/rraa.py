@@ -3,8 +3,8 @@ from pathlib import Path
 import pandas as pd
 
 BASE_DIR = Path(__file__).resolve().parents[1]
-RRAA_FILE = BASE_DIR / "data_sintetica" / "microdatos_registro_poblacion_sintetico.csv"
-
+RRAA_FILE = BASE_DIR / "microdatos_registro_poblacion_sintetico.csv"
+# print(f"RRAA_FILE: {RRAA_FILE}")    
 
 def _read_rraa() -> pd.DataFrame:
     return pd.read_csv(RRAA_FILE)
