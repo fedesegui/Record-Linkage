@@ -75,7 +75,6 @@ def get_censo_clean(muestra):
     censo["dia_nacimiento"] = censo["fecha_nacimiento"].dt.day
     print("Se modificaron las fechas de nacimiento: " + datetime.now().strftime("%H:%M:%S"))
 
-    # print("ci" + censo["ci"])
     censo["documento"] = np.where(
         censo.apply(lambda row: validar_cedula(row["ci"]) == 1, axis = 1),
         censo["ci"].astype(str).str.lstrip('0'),
