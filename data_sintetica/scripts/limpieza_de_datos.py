@@ -13,7 +13,7 @@ from datetime import datetime
 def get_rraa_clean(muestra):
     rraa = get_personas_rraa(muestra)
     rraa = limpieza_database(rraa)
-    rraa = rraa.apply(lambda row: modificar_nombre_apellido(row, "rraa"), axis=1)
+    # rraa = rraa.apply(lambda row: modificar_nombre_apellido(row, "rraa"), axis=1)
     # rraa["id_sexo"] = rraa["id_sexo"].astype("int64")
     condicion = (rraa["id_pais_documento"] == 858) & (rraa["id_tipo_documento"] == 1)
     rraa["documento_valido"] = np.where(
@@ -47,7 +47,7 @@ def get_extranjeros_clean(muestra):
 def get_censo_clean(muestra):
     censo = get_personas_censo(muestra)
     censo = limpieza_database(censo)
-    censo = censo.apply(lambda row: modificar_nombre_apellido(row, "censo"), axis=1)
+    # censo = censo.apply(lambda row: modificar_nombre_apellido(row, "censo"), axis=1)
     # censo["id_sexo"] = censo["id_sexo"].astype("int64")
     condicion = (censo["id_pais_documento"] == 858) & (censo["id_tipo_documento"] == 1)
     censo["documento_valido"] = np.where(
