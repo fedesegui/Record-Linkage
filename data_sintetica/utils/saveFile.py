@@ -16,5 +16,5 @@ def guardar_como_parquet(df, ruta_archivo):
         print(f"Se creó el directorio: {directorio}")
     
     # Guardar el DataFrame como archivo Parquet
-    # df.to_parquet(ruta_archivo)
+    df.to_parquet(ruta_archivo)
     print(f"Se guardó el DataFrame como Parquet en: {ruta_archivo}")
