@@ -14,6 +14,14 @@ def get_personas_censo(muestra=None):
     personas_censo = _read_censo()
     if muestra is not None:
         personas_censo = personas_censo.head(int(muestra))
+    if personas_censo.empty:
+        print("Warning: El DataFrame de personas_censo está vacío después de aplicar la muestra.")
+    else:
+        print(f"personas_censo cargado con {len(personas_censo)} filas.")
+    if personas_censo is None:
+        print("Warning: personas_censo es None después de cargar los datos.")
+    else:
+        print("personas_censo no es None después de cargar los datos.")
     return personas_censo
 
 
