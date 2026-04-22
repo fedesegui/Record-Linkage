@@ -108,10 +108,6 @@ def get_censo_clean(muestra):
     )
 
     censo["id_tipo_documento"] = censo["id_tipo_documento"].astype(pd.StringDtype())
-    if censo is None:
-        print("Warning: censo es None después de cargar los datos.")
-    else:
-        print("censo no es None después de cargar los datos.")
 
     def condition(row):
         if pd.isna(row["id_pais_documento"]) or pd.isna(row["id_tipo_documento"]):
@@ -124,3 +120,7 @@ def get_censo_clean(muestra):
         0,
     )
     print("Se modificaron los documentos: " + datetime.now().strftime("%H:%M:%S"))
+    if censo is None:
+        print("Warning: censo es None después de cargar los datos.")
+    else:
+        print("censo no es None después de cargar los datos.")
