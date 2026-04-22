@@ -45,79 +45,24 @@ def get_extranjeros_clean(muestra):
 
 
 def get_censo_clean(muestra):
-    print("Comenzo el proceso: " + datetime.now().strftime("%H:%M:%S"))
-
     censo = get_personas_censo(muestra)
-    print("Se cargo la tabla: " + datetime.now().strftime("%H:%M:%S"))
-
     censo = limpieza_database(censo)
-    print("Se limpio la tabla: " + datetime.now().strftime("%H:%M:%S"))
-
     censo = censo.apply(lambda row: modificar_nombre_apellido(row, "censo"), axis=1)
-    print("Se modificaron los nombres y apellidos: " + datetime.now().strftime("%H:%M:%S"))
+    # censo["id_sexo"] = censo["id_sexo"].astype("int64")
+    condicion = (censo["id_pais_documento"] == 858) & (censo["id_tipo_documento"] == 1)
+    censo["documento_valido"] = np.where(
+        condicion,
+        censo["documento"].astype(str).apply(validar_cedula),
+        0,
+    )
 
-    # Usa la fecha de nacimiento ya disponible en el dataset sintético si existe.
-    if "fecha_nacimiento" in censo.columns:
-        censo["fecha_nacimiento"] = pd.to_datetime(censo["fecha_nacimiento"], errors="coerce")
-    else:
-        # Compatibilidad con la lógica histórica basada en perna02_r/perna02_r_imp.
-        censo["fecha_nacimiento"] = pd.to_datetime(
-            np.where(
-                censo.apply(lambda row: row["perna02_r_imp"] == 1, axis=1),
-                pd.NaT,
-                censo["perna02_r"],
-            ),
-            errors="coerce",
-        )
+    censo["id_pais_documento"] = censo["id_pais_documento"].astype(str)
+    censo["id_tipo_documento"] = censo["id_tipo_documento"].astype(str)
+
+    censo["fecha_nacimiento"] = pd.to_datetime(censo["fecha_nacimiento"], errors = "coerce")
 
     censo["ano_nacimiento"] = censo["fecha_nacimiento"].dt.year
     censo["mes_nacimiento"] = censo["fecha_nacimiento"].dt.month
     censo["dia_nacimiento"] = censo["fecha_nacimiento"].dt.day
-    print("Se modificaron las fechas de nacimiento: " + datetime.now().strftime("%H:%M:%S"))
 
-    censo["documento"] = np.where(
-        censo.apply(lambda row: validar_cedula(row["ci"]) == 1, axis = 1),
-        censo["ci"].astype(str).str.lstrip('0'),
-        np.where(
-            censo.apply(lambda row: row["docextnro"] is not np.nan, axis=1),
-            censo["docextnro"],
-            censo["ci"]
-        )
-    )
-
-    censo["id_pais_documento"] = np.where(
-        censo.apply(lambda row: row["ci"] == row["documento"] and row["documento"] is not np.nan or row["docextpais"] == 895, axis=1),
-        858,
-        np.where(
-            censo.apply(lambda row: row["docextnro"] == row["documento"] and row["docextnro"] is not np.nan, axis=1),
-            censo["docextpais"],
-            np.nan
-            )
-    )
-
-    censo["id_pais_documento"] = censo["id_pais_documento"].astype(pd.StringDtype())
-
-    censo["id_tipo_documento"] = np.where(
-        censo.apply(lambda row: row["ci"] == row["documento"] and row["documento"] is not np.nan, axis=1),
-        1,
-        np.where(
-            censo.apply(lambda row: row["docextnro"] == row["documento"] and row["docextnro"] is not np.nan, axis=1),
-            censo["docexttipo"],
-            np.nan
-            )
-    )
-
-    censo["id_tipo_documento"] = censo["id_tipo_documento"].astype(pd.StringDtype())
-
-    def condition(row):
-        if pd.isna(row["id_pais_documento"]) or pd.isna(row["id_tipo_documento"]):
-            return False
-        return row["id_pais_documento"] == "858" and row["id_tipo_documento"] == "1"
-
-    censo["documento_valido"] = np.where(
-        censo.apply(condition, axis=1),
-        censo["documento"].apply(validar_cedula),
-        0,
-    )
-    print("Se modificaron los documentos: " + datetime.now().strftime("%H:%M:%S"))
     return censo
