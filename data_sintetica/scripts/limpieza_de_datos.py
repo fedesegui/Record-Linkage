@@ -56,12 +56,6 @@ def get_censo_clean(muestra):
     censo = censo.apply(lambda row: modificar_nombre_apellido(row, "censo"), axis=1)
     print("Se modificaron los nombres y apellidos: " + datetime.now().strftime("%H:%M:%S"))
 
-    if censo is None:
-        print("Warning: censo es None después de cargar los datos.")
-    else:
-        print("censo no es None después de cargar los datos.")
-
-
     # Usa la fecha de nacimiento ya disponible en el dataset sintético si existe.
     if "fecha_nacimiento" in censo.columns:
         censo["fecha_nacimiento"] = pd.to_datetime(censo["fecha_nacimiento"], errors="coerce")
@@ -90,6 +84,10 @@ def get_censo_clean(muestra):
             censo["ci"]
         )
     )
+    if censo is None:
+        print("Warning: censo es None después de cargar los datos.")
+    else:
+        print("censo no es None después de cargar los datos.")
 
     censo["id_pais_documento"] = np.where(
         censo.apply(lambda row: row["ci"] == row["documento"] and row["documento"] is not np.nan or row["docextpais"] == 895, axis=1),
