@@ -41,73 +41,73 @@ def limpieza_campo(campo):
     return campo
 
 
-def modificar_nombre_apellido(row, base):
-     #if base == "rraa":
-     #   row["nombres"] = f"{row['primer_nombre']} {row['segundo_nombre']}"
-     #   row["apellidos"] = f"{row['primer_apellido']} {row['segundo_apellido']}"
+# def modificar_nombre_apellido(row, base):
+#      #if base == "rraa":
+#      #   row["nombres"] = f"{row['primer_nombre']} {row['segundo_nombre']}"
+#      #   row["apellidos"] = f"{row['primer_apellido']} {row['segundo_apellido']}"
 
-     if base == "rraa":
-         row["fuente"] = "rraa"
+#      if base == "rraa":
+#          row["fuente"] = "rraa"
 
-     if base == "censo":
-        if row["fuente"] == "sen" and not (pd.isnull(row["primer_apellido"])) and not (pd.isnull(row["segundo_apellido"])):
-            row["nombres"] = concatenar_palabras(row, "primer_nombre", "segundo_nombre")
-            row["apellidos"] = concatenar_palabras(row, "primer_apellido", "segundo_apellido")
-        elif (row["fuente"] != "survey") and (row["fuente"] != "sen"):
-            row["nombres"] = row["primer_nombre"]
-            row["apellidos"] = row["primer_apellido"]
-        else:
-            row["nombres"] = concatenar_palabras(row, "primer_nombre", "segundo_nombre")
-            row["apellidos"] = np.nan
+#      if base == "censo":
+#         if row["fuente"] == "sen" and not (pd.isnull(row["primer_apellido"])) and not (pd.isnull(row["segundo_apellido"])):
+#             row["nombres"] = concatenar_palabras(row, "primer_nombre", "segundo_nombre")
+#             row["apellidos"] = concatenar_palabras(row, "primer_apellido", "segundo_apellido")
+#         elif (row["fuente"] != "survey") and (row["fuente"] != "sen"):
+#             row["nombres"] = row["primer_nombre"]
+#             row["apellidos"] = row["primer_apellido"]
+#         else:
+#             row["nombres"] = concatenar_palabras(row, "primer_nombre", "segundo_nombre")
+#             row["apellidos"] = np.nan
 
     
-     if row["fuente"] == "survey" or (row["fuente"] == "sen" and pd.isnull(row["apellidos"])):
-        nombre_split = row["nombres"].split() if pd.notnull(row["nombres"]) else []
-        nombre_concatenado = estandarizar_nombre_apellido(nombre_split)
-        # si el campo nombre trae 3 palabras lo asigno como 2 apellidos
-        if len(nombre_concatenado) == 1:
-            row["primer_nombre"] = nombre_concatenado[0]
-            row["segundo_nombre"] = ""
-            row["primer_apellido"] = ""
-            row["segundo_apellido"] = ""
-        elif len(nombre_concatenado) == 2:
-            row["primer_nombre"] = nombre_concatenado[0]
-            row["segundo_nombre"] = ""
-            row["primer_apellido"] = nombre_concatenado[1]
-            row["segundo_apellido"] = ""
-        elif len(nombre_concatenado) == 3:
-            row["primer_nombre"] = nombre_concatenado[0]
-            row["segundo_nombre"] = ""
-            row["primer_apellido"] = nombre_concatenado[1]
-            row["segundo_apellido"] = nombre_concatenado[2]
-        elif len(nombre_concatenado) > 3:
-            row["primer_nombre"] = nombre_concatenado[0]
-            row["segundo_nombre"] = nombre_concatenado[1]
-            row["primer_apellido"] = nombre_concatenado[2]
-            row["segundo_apellido"] = (
-                " ".join(nombre_concatenado[3:])
-            )
+#      if row["fuente"] == "survey" or (row["fuente"] == "sen" and pd.isnull(row["apellidos"])):
+#         nombre_split = row["nombres"].split() if pd.notnull(row["nombres"]) else []
+#         nombre_concatenado = estandarizar_nombre_apellido(nombre_split)
+#         # si el campo nombre trae 3 palabras lo asigno como 2 apellidos
+#         if len(nombre_concatenado) == 1:
+#             row["primer_nombre"] = nombre_concatenado[0]
+#             row["segundo_nombre"] = ""
+#             row["primer_apellido"] = ""
+#             row["segundo_apellido"] = ""
+#         elif len(nombre_concatenado) == 2:
+#             row["primer_nombre"] = nombre_concatenado[0]
+#             row["segundo_nombre"] = ""
+#             row["primer_apellido"] = nombre_concatenado[1]
+#             row["segundo_apellido"] = ""
+#         elif len(nombre_concatenado) == 3:
+#             row["primer_nombre"] = nombre_concatenado[0]
+#             row["segundo_nombre"] = ""
+#             row["primer_apellido"] = nombre_concatenado[1]
+#             row["segundo_apellido"] = nombre_concatenado[2]
+#         elif len(nombre_concatenado) > 3:
+#             row["primer_nombre"] = nombre_concatenado[0]
+#             row["segundo_nombre"] = nombre_concatenado[1]
+#             row["primer_apellido"] = nombre_concatenado[2]
+#             row["segundo_apellido"] = (
+#                 " ".join(nombre_concatenado[3:])
+#             )
 
 
-     else:
-        nombre_split = row["nombres"].split() if pd.notnull(row["nombres"]) else []
-        nombre_concatenado = estandarizar_nombre_apellido(nombre_split)
-        row["primer_nombre"] = nombre_concatenado[0] if nombre_concatenado else ""
-        row["segundo_nombre"] = (
-            " ".join(nombre_concatenado[1:]) if len(nombre_concatenado) > 1 else ""
-        )
+#      else:
+#         nombre_split = row["nombres"].split() if pd.notnull(row["nombres"]) else []
+#         nombre_concatenado = estandarizar_nombre_apellido(nombre_split)
+#         row["primer_nombre"] = nombre_concatenado[0] if nombre_concatenado else ""
+#         row["segundo_nombre"] = (
+#             " ".join(nombre_concatenado[1:]) if len(nombre_concatenado) > 1 else ""
+#         )
 
-        apellido_split = row["apellidos"].split() if pd.notnull(row["apellidos"]) else []
-        apellido_concatenado = estandarizar_nombre_apellido(apellido_split)
-        row["primer_apellido"] = apellido_concatenado[0] if apellido_concatenado else ""
-        row["segundo_apellido"] = (
-            " ".join(apellido_concatenado[1:]) if len(apellido_concatenado) > 1 else ""
-        )
+#         apellido_split = row["apellidos"].split() if pd.notnull(row["apellidos"]) else []
+#         apellido_concatenado = estandarizar_nombre_apellido(apellido_split)
+#         row["primer_apellido"] = apellido_concatenado[0] if apellido_concatenado else ""
+#         row["segundo_apellido"] = (
+#             " ".join(apellido_concatenado[1:]) if len(apellido_concatenado) > 1 else ""
+#         )
 
-     del row["nombres"]
-     del row["apellidos"]
+#      del row["nombres"]
+#      del row["apellidos"]
 
-     return row
+#      return row
 
 
 
