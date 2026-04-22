@@ -1,8 +1,7 @@
 import pandas as pd
 import numpy as np
 from data_sintetica.utils.limpieza_de_datos.funciones_texto import (
-    limpieza_database,
-    modificar_nombre_apellido
+    limpieza_database
 )
 from data_sintetica.utils.limpieza_de_datos.funciones_documentos import validar_cedula
 from data_sintetica.load_data.rraa import get_personas_rraa
